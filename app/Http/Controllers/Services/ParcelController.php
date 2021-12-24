@@ -45,8 +45,9 @@ class ParcelController extends Controller
             
            
             //$user = User::first();
-            //access the current logged in user  User::where('email', $fields['Email'])->value('id'); 
-            $user = User::where('email', $fields['Email'])->value('id');
+            //access current logged in user  User::where('email', $fields['Email'])->value('id');
+
+            $user = Auth::user()->id;
             //submit parcel 
             $parcel = parcels::create([
                 'From' => $fields['From'],

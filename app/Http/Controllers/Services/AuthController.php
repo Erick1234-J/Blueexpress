@@ -54,11 +54,11 @@ class AuthController extends Controller
      //check password
 
      if(!$user || !Hash::check($fields['password'], $user->password)){
-         return response([
-             'message' => 'bad credentials! try again'
-         ], 401);
-     }
-
+        return response([
+            'message' => 'bad credentials! try again'
+        ], 401);
+    }
+    
      $token = $user->createToken('myapptoken')->plainTextToken;
 
 
