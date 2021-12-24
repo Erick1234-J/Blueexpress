@@ -11,9 +11,10 @@
 <body>
     <div>
         <h1 >Hello {{$parcel->FirstName}} </h1>
+        <h1>Your parcel has been submitted successfully.</h1>
         <h2>Your Tracking Number is: {{$parcel->Reference}}</h2>
         <h2>Kindly visit blueexpress to track the status of your parcel</h2>
-        <h3>Thank You!</h3>
+        <h3>Thank You for shipping with us!</h3>
     </div>
 </body>
 </html>
