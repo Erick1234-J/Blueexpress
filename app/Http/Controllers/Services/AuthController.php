@@ -20,23 +20,30 @@ class AuthController extends Controller
         'password_confirmation' => 'required|same:password'
     ]);
 
+    if(!$fields){
+        return response()->json(['status' => 'failed', 'message' => 'validation_errors', 'errors' => $fields->errors()]);
+    }
+
     
 
-    $user = User::create([
+    $userData = array(
         'name' => $fields['name'],
         'email'=> $fields['email'],
         'password' => bcrypt($fields['password'])
-    ]);
+    );
+
+    $user = User::create($userData);
 
     $token = $user->createToken('myapptoken')->plainTextToken;
 
     $response = [
         'success' => true,
-      'user' => $user,
+        'status' => 200,
+      'message' => 'Registration submitted successfully',
       'token' => $token
     ];
 
-    return response()->json($response, 201);
+    return response()->json($response);
 
  }
  
@@ -55,19 +62,23 @@ class AuthController extends Controller
 
      if(!$user || !Hash::check($fields['password'], $user->password)){
         return response([
-            'message' => 'bad credentials! try again'
-        ], 401);
+            'message' => 'bad credentials! try again',
+            'success' => false,
+            'status' => 401
+        ]);
     }
     
      $token = $user->createToken('myapptoken')->plainTextToken;
 
 
      $response = [
-         'user' => $user,
+         'success' => true,
+         'status' => 200,
+         'message' => 'Successfully logged in',
          'token' => $token
        ];
 
-       return response()->json($response, 201);
+       return response()->json($response);
      }
      //logout user
  public function logoutUser(){
