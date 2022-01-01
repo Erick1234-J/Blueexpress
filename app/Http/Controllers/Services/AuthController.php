@@ -20,12 +20,6 @@ class AuthController extends Controller
         'password_confirmation' => 'required|same:password'
     ]);
 
-    if(!$fields){
-        return response()->json(['status' => 'failed', 'message' => 'validation_errors', 'errors' => $fields->errors()]);
-    }
-
-    
-
     $userData = array(
         'name' => $fields['name'],
         'email'=> $fields['email'],
@@ -56,7 +50,7 @@ class AuthController extends Controller
      ]);
 
      //check email
-     $user = User::where('email', $fields['email'])->first();
+     $user = User::where('email', $fields['email'])->firstorfail();
 
      //check password
 

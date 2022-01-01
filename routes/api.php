@@ -28,7 +28,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/submit_parcels', [ParcelController::class, 'parcelSubmit']);
     Route::post('/track_number', [TrackingController::class, 'CheckStatus']);  
     Route::get('/user', [TrackingController::class, 'getLoggedUser']);
-    Route::get('/parcels', [TrackingController::class, 'getParcelCount']);
+    Route::get('/notification', [TrackingController::class, 'notifyUser']);
 });
 
 /*
