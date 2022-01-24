@@ -26,6 +26,7 @@ Route::post('login', [AuthController::class, 'loginUser']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     
     Route::post('/submit_parcels', [ParcelController::class, 'parcelSubmit']);
+    Route::post('/manage_profile', [ParcelController::class, 'manage']);
     Route::post('/track_number', [TrackingController::class, 'CheckStatus']);  
     Route::get('/user', [TrackingController::class, 'getLoggedUser']);
     Route::get('/notification', [TrackingController::class, 'notifyUser']);

@@ -37,14 +37,21 @@ class TrackingController extends Controller
     public function getLoggedUser(){
         $user = Auth::user();
         $id = Auth::user()->id;
-        $parcels = parcels::where('user_id', $id)->count('Status');
+        $shipped = parcels::where('user_id', $id )->where('Status', 'like', "%shipped%")->count('Status');
+        $transit = parcels::where('user_id', $id )->where('Status', 'like', "%transit%")->count('Status');
+        $received = parcels::where('user_id', $id )->where('Status', 'like', "%received%")->count('Status');
+        $collection = parcels::where('user_id', $id )->where('Status', 'like', "%collected%")->count('Status');
         $tracking = parcels::where('user_id', $id)->get('Reference');
+       
 
       
           
         return response()->json([
             'user' => $user,
-            'data' => $parcels,
+            'shipped' => $shipped,
+            'transit' => $transit,
+            'received' => $received,
+            'collection' => $collection,
             'track' => $tracking,
             'status' => 200
         ]);

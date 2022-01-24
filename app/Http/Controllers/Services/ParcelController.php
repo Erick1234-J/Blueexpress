@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Parcels;
 use App\Models\User;
-use App\Mail\TrackingNumber;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
 class ParcelController extends Controller
@@ -44,8 +42,7 @@ class ParcelController extends Controller
             }
             
            
-            //$user = User::first();
-            //access current logged in user  User::where('email', $fields['Email'])->value('id');
+            
 
             $user = Auth::user()->id;
             //submit parcel 
@@ -62,16 +59,36 @@ class ParcelController extends Controller
                 'user_id' => $user
             ]);
     
-            Mail::to($request->Email)->send(new TrackingNumber($parcel));
+           
      
             return response()->json([
-                "message" => "successfully submitted!",
+                "message" => "parcel submitted successfully! visit your profile for your tracking number",
                 "status" => 200
             ]);
 
            
     
     }
+//mange user profile
+   public function manage(Request $request){
+      $this->validate($request, [
+       'name' => 'required',
+        'email' => 'required'
+      ]);
+
+     $id = Auth::user()->id;
+
+      $profile = User::find($id);
+      $profile->name = $request->input('name');
+      $profile->email = $request->input('email');
+      $profile->save();
+
+      return response()->json([
+        'sucess' => true,
+        'message' => 'successfully updated!',
+        'status' => 200
+      ]);
+   }
 
 
 }
